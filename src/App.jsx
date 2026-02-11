@@ -19,22 +19,33 @@ import {
   ExternalLink,
   TrendingUp,
   BarChart3,
-  Workflow, // Added for n8n
-  Cpu       // Added for OpenClaw
+  Workflow,
+  Cpu
 } from 'lucide-react';
-import { Analytics } from '@vercel/analytics/react'; // РАСКОММЕНТИРОВАТЬ ПЕРЕД ДЕПЛОЕМ
+import { Analytics } from '@vercel/analytics/react'; // РАСКОММЕНТИРОВАТЬ ЭТУ СТРОКУ ПЕРЕД ДЕПЛОЕМ
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ (FIX WHITE SCREEN)
+  // ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ И SEO
   useLayoutEffect(() => {
     // 1. Принудительно ставим темный фон для body и html
     document.documentElement.style.backgroundColor = '#020617';
     document.body.style.backgroundColor = '#020617';
     
-    // 2. Красим адресную строку Safari/Chrome в цвет сайта
+    // 2. SEO: Установка Title и Description (ОБНОВЛЕНО)
+    document.title = "Новый Код | Разработка сайтов и мобильных приложений";
+    
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.name = "description";
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = "Профессиональная разработка веб-сайтов, мобильных приложений и автоматизация бизнес-процессов (n8n, OpenClaw). Комплексные IT-решения для вашего бизнеса.";
+
+    // 3. Красим адресную строку Safari/Chrome в цвет сайта
     let metaThemeColor = document.querySelector("meta[name=theme-color]");
     if (!metaThemeColor) {
       metaThemeColor = document.createElement("meta");
@@ -43,10 +54,6 @@ export default function App() {
     }
     metaThemeColor.content = "#020617";
     
-    // Очистка при размонтировании (опционально)
-    return () => {
-       // document.body.style.backgroundColor = ''; 
-    };
   }, []);
 
   // Handle scroll for header transparency
